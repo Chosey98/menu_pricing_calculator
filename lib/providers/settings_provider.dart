@@ -40,6 +40,11 @@ class SettingsNotifier extends StateNotifier<AppSettings> {
   Future<void> updateField(AppSettings Function(AppSettings) updater) async {
     await update(updater(state));
   }
+
+  Future<void> markSetupGuideSeen() async {
+    if (state.hasSeenSetupGuide) return;
+    await updateField((settings) => settings.copyWith(hasSeenSetupGuide: true));
+  }
 }
 
 final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {

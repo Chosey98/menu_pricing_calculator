@@ -7,6 +7,7 @@ import '../providers/menu_items_provider.dart';
 import '../providers/pricing_provider.dart';
 import '../providers/settings_provider.dart';
 import '../utils/currency_formatter.dart';
+import 'ingredient_picker_sheet.dart';
 import 'ingredient_row.dart';
 import 'pricing_summary_card.dart';
 
@@ -108,19 +109,45 @@ class _AddOnCardState extends ConsumerState<AddOnCard> {
                         );
                       },
                     ),
-                  OutlinedButton.icon(
-                    onPressed: () {
-                      widget.onChanged(
-                        widget.addOn.copyWith(
-                          ingredients: [
-                            ...widget.addOn.ingredients,
-                            newIngredientLine(),
-                          ],
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () async {
+                            final line =
+                                await pickIngredientForRecipe(ref, context);
+                            if (line == null || !mounted) return;
+                            widget.onChanged(
+                              widget.addOn.copyWith(
+                                ingredients: [
+                                  ...widget.addOn.ingredients,
+                                  line,
+                                ],
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.list_alt_outlined),
+                          label: Text(l10n.chooseIngredient),
                         ),
-                      );
-                    },
-                    icon: const Icon(Icons.add),
-                    label: Text(l10n.addIngredient),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            widget.onChanged(
+                              widget.addOn.copyWith(
+                                ingredients: [
+                                  ...widget.addOn.ingredients,
+                                  newIngredientLine(),
+                                ],
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.add),
+                          label: Text(l10n.addCustomIngredient),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 12),
                   PricingSummaryCard(

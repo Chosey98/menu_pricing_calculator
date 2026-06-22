@@ -31,6 +31,9 @@ class AppSettings {
   @HiveField(8, defaultValue: 'en')
   final String localeCode;
 
+  @HiveField(9, defaultValue: false)
+  final bool hasSeenSetupGuide;
+
   const AppSettings({
     this.packingPct = 0.05,
     this.electricPct = 0.05,
@@ -41,6 +44,7 @@ class AppSettings {
     this.alternateSalaryPct = 0.20,
     this.currencyLabel = 'LE',
     this.localeCode = 'en',
+    this.hasSeenSetupGuide = false,
   });
 
   static const defaults = AppSettings();
@@ -55,6 +59,7 @@ class AppSettings {
     double? alternateSalaryPct,
     String? currencyLabel,
     String? localeCode,
+    bool? hasSeenSetupGuide,
   }) {
     return AppSettings(
       packingPct: packingPct ?? this.packingPct,
@@ -66,6 +71,7 @@ class AppSettings {
       alternateSalaryPct: alternateSalaryPct ?? this.alternateSalaryPct,
       currencyLabel: currencyLabel ?? this.currencyLabel,
       localeCode: localeCode ?? this.localeCode,
+      hasSeenSetupGuide: hasSeenSetupGuide ?? this.hasSeenSetupGuide,
     );
   }
 }

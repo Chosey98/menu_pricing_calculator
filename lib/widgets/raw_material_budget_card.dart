@@ -43,6 +43,8 @@ class RawMaterialBudgetCard extends StatelessWidget {
             _line(context, l10n.rawMaterialBudget, comparison.budget),
             _line(context, l10n.purchasesTotal, comparison.spent,
                 emphasized: true),
+            if (hasBudget && comparison.profitTarget > 0)
+              _line(context, l10n.profitTarget, comparison.profitTarget),
             if (hasBudget) ...[
               const SizedBox(height: 8),
               LinearProgressIndicator(
@@ -68,6 +70,36 @@ class RawMaterialBudgetCard extends StatelessWidget {
                       : theme.colorScheme.primary,
                 ),
               ),
+              if (comparison.isOverBudget) ...[
+                const SizedBox(height: 8),
+                Text(
+                  l10n.profitReducedBy(
+                    formatCurrency(comparison.overBudgetAmount, currencyLabel),
+                  ),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.onErrorContainer,
+                  ),
+                ),
+                Text(
+                  l10n.estimatedProfitAfterPurchases(
+                    formatCurrency(
+                      comparison.estimatedProfitAfterPurchases,
+                      currencyLabel,
+                    ),
+                  ),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onErrorContainer,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  l10n.purchasesAllowedOverBudget,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onErrorContainer,
+                  ),
+                ),
+              ],
             ] else
               Text(
                 l10n.setVariableCostsForBudget,

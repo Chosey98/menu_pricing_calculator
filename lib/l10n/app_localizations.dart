@@ -193,6 +193,18 @@ class AppLocalizations {
   String get monthlySalesHint => _t.monthlySalesHint;
   String get setupGuide => _t.setupGuide;
   String get openSetupGuide => _t.openSetupGuide;
+  String get getStarted => _t.getStarted;
+  String get chooseIngredient => _t.chooseIngredient;
+  String get chooseIngredientHint => _t.chooseIngredientHint;
+  String get addCustomIngredient => _t.addCustomIngredient;
+  String get noIngredientsInCatalog => _t.noIngredientsInCatalog;
+  String get fromPurchases => _t.fromPurchases;
+  String get fromRecipes => _t.fromRecipes;
+  String profitReducedBy(String amount) =>
+      _t.profitReducedBy.replaceAll('{amount}', amount);
+  String estimatedProfitAfterPurchases(String amount) =>
+      _t.estimatedProfitAfterPurchases.replaceAll('{amount}', amount);
+  String get purchasesAllowedOverBudget => _t.purchasesAllowedOverBudget;
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -375,6 +387,16 @@ class _Strings {
     required this.monthlySalesHint,
     required this.setupGuide,
     required this.openSetupGuide,
+    required this.getStarted,
+    required this.chooseIngredient,
+    required this.chooseIngredientHint,
+    required this.addCustomIngredient,
+    required this.noIngredientsInCatalog,
+    required this.fromPurchases,
+    required this.fromRecipes,
+    required this.profitReducedBy,
+    required this.estimatedProfitAfterPurchases,
+    required this.purchasesAllowedOverBudget,
   });
 
   final String appTitle;
@@ -538,6 +560,16 @@ class _Strings {
   final String monthlySalesHint;
   final String setupGuide;
   final String openSetupGuide;
+  final String getStarted;
+  final String chooseIngredient;
+  final String chooseIngredientHint;
+  final String addCustomIngredient;
+  final String noIngredientsInCatalog;
+  final String fromPurchases;
+  final String fromRecipes;
+  final String profitReducedBy;
+  final String estimatedProfitAfterPurchases;
+  final String purchasesAllowedOverBudget;
 
   static const en = _Strings(
     appTitle: 'Menu Pricing Calculator',
@@ -727,6 +759,19 @@ class _Strings {
         'Enter how many of each item you sold. Compare results to your monthly targets.',
     setupGuide: 'Setup & Usage Guide',
     openSetupGuide: 'Open setup guide',
+    getStarted: 'Get started',
+    chooseIngredient: 'Choose ingredient',
+    chooseIngredientHint:
+        'Pick from purchases or ingredients already used in your recipes.',
+    addCustomIngredient: 'Add custom',
+    noIngredientsInCatalog:
+        'No ingredients yet. Log purchases or add a custom ingredient to build your catalog.',
+    fromPurchases: 'From purchases',
+    fromRecipes: 'From recipes',
+    profitReducedBy: 'This reduces your profit target by {amount}',
+    estimatedProfitAfterPurchases: 'Estimated profit after purchases: {amount}',
+    purchasesAllowedOverBudget:
+        'You can still add purchases — use this as a warning, not a block.',
   );
 
   static const ar = _Strings(
@@ -912,5 +957,18 @@ class _Strings {
         'أدخل عدد كل صنف مباع. قارن النتائج بأهدافك الشهرية.',
     setupGuide: 'دليل الإعداد والاستخدام',
     openSetupGuide: 'افتح دليل الإعداد',
+    getStarted: 'ابدأ',
+    chooseIngredient: 'اختر مكوناً',
+    chooseIngredientHint:
+        'اختر من المشتريات أو من المكونات المستخدمة في وصفاتك.',
+    addCustomIngredient: 'إضافة مخصصة',
+    noIngredientsInCatalog:
+        'لا توجد مكونات بعد. سجّل مشتريات أو أضف مكوناً مخصصاً لبناء قائمة المكونات.',
+    fromPurchases: 'من المشتريات',
+    fromRecipes: 'من الوصفات',
+    profitReducedBy: 'هذا يقلل هدف الربح بمقدار {amount}',
+    estimatedProfitAfterPurchases: 'الربح المتوقع بعد المشتريات: {amount}',
+    purchasesAllowedOverBudget:
+        'يمكنك متابعة إضافة المشتريات — هذا تنبيه وليس منعاً.',
   );
 }

@@ -48,11 +48,18 @@ Future<void> main() async {
     } else {
       try {
         final existing = settingsBox.get(settingsKey);
-        if (existing != null && existing.localeCode.isEmpty) {
-          await settingsBox.put(
-            settingsKey,
-            existing.copyWith(localeCode: 'en'),
-          );
+        if (existing != null) {
+          var migrated = existing;
+          if (existing.localeCode.isEmpty) {
+            migrated = migrated.copyWith(localeCode: 'en');
+          }
+          final menuItemsBox = Hive.box<MenuItem>(menuItemsBoxName);
+          if (menuItemsBox.isNotEmpty && !migrated.hasSeenSetupGuide) {
+            migrated = migrated.copyWith(hasSeenSetupGuide: true);
+          }
+          if (migrated != existing) {
+            await settingsBox.put(settingsKey, migrated);
+          }
         }
       } catch (_) {
         await settingsBox.put(settingsKey, AppSettings.defaults);

@@ -26,13 +26,14 @@ class AppSettingsAdapter extends TypeAdapter<AppSettings> {
       alternateSalaryPct: fields[6] as double,
       currencyLabel: fields[7] as String,
       localeCode: fields[8] == null ? 'en' : fields[8] as String,
+      hasSeenSetupGuide: fields[9] == null ? false : fields[9] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, AppSettings obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.packingPct)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class AppSettingsAdapter extends TypeAdapter<AppSettings> {
       ..writeByte(7)
       ..write(obj.currencyLabel)
       ..writeByte(8)
-      ..write(obj.localeCode);
+      ..write(obj.localeCode)
+      ..writeByte(9)
+      ..write(obj.hasSeenSetupGuide);
   }
 
   @override

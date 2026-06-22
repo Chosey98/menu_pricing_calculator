@@ -17,8 +17,36 @@ import 'monthly_sales_screen.dart';
 import 'sales_targets_screen.dart';
 import 'setup_guide_screen.dart';
 
-class MenuListScreen extends ConsumerWidget {
+class MenuListScreen extends ConsumerStatefulWidget {
   const MenuListScreen({super.key});
+
+  @override
+  ConsumerState<MenuListScreen> createState() => _MenuListScreenState();
+}
+
+class _MenuListScreenState extends ConsumerState<MenuListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _maybeShowFirstLaunchGuide();
+    });
+  }
+
+  Future<void> _maybeShowFirstLaunchGuide() async {
+    final settings = ref.read(appSettingsProvider);
+    if (settings.hasSeenSetupGuide || !mounted) return;
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const SetupGuideScreen(isFirstLaunch: true),
+      ),
+    );
+
+    if (!mounted) return;
+    await ref.read(appSettingsProvider.notifier).markSetupGuideSeen();
+  }
 
   Future<void> _confirmDelete(
     BuildContext context,
@@ -69,7 +97,7 @@ class MenuListScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final items = ref.watch(menuItemsProvider);
     final settings = ref.watch(appSettingsProvider);
     final l10n = ref.watch(appLocalizationsProvider);

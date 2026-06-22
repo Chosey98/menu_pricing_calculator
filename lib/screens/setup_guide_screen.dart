@@ -6,7 +6,9 @@ import '../providers/localization_provider.dart';
 import '../providers/settings_provider.dart';
 
 class SetupGuideScreen extends ConsumerWidget {
-  const SetupGuideScreen({super.key});
+  const SetupGuideScreen({super.key, this.isFirstLaunch = false});
+
+  final bool isFirstLaunch;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,9 +22,10 @@ class SetupGuideScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.setupGuide),
+        automaticallyImplyLeading: !isFirstLaunch,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         children: [
           Card(
             color: theme.colorScheme.primaryContainer.withValues(alpha: 0.45),
@@ -80,6 +83,17 @@ class SetupGuideScreen extends ConsumerWidget {
           const SizedBox(height: 24),
         ],
       ),
+      bottomNavigationBar: isFirstLaunch
+          ? SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: FilledButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(l10n.getStarted),
+                ),
+              ),
+            )
+          : null,
     );
   }
 }

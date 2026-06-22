@@ -119,24 +119,38 @@ class BudgetComparison {
   final double spent;
   final double remaining;
   final bool isOverBudget;
+  final double profitTarget;
+  final double overBudgetAmount;
+  final double estimatedProfitAfterPurchases;
 
   const BudgetComparison({
     required this.budget,
     required this.spent,
     required this.remaining,
     required this.isOverBudget,
+    required this.profitTarget,
+    required this.overBudgetAmount,
+    required this.estimatedProfitAfterPurchases,
   });
 }
 
 final rawMaterialBudgetComparisonProvider = Provider<BudgetComparison>((ref) {
-  final budget =
-      ref.watch(businessThirdsTargetsProvider).targetRawMaterialBudget;
+  final businessTargets = ref.watch(businessThirdsTargetsProvider);
+  final budget = businessTargets.targetRawMaterialBudget;
+  final profitTarget = businessTargets.targetProfit;
   final spent = ref.watch(shoppingListTotalProvider);
   final remaining = budget - spent;
+  final overBudgetAmount =
+      budget > 0 && spent > budget ? spent - budget : 0.0;
+  final estimatedProfitAfterPurchases = profitTarget - overBudgetAmount;
+
   return BudgetComparison(
     budget: budget,
     spent: spent,
     remaining: remaining,
     isOverBudget: spent > budget && budget > 0,
+    profitTarget: profitTarget,
+    overBudgetAmount: overBudgetAmount,
+    estimatedProfitAfterPurchases: estimatedProfitAfterPurchases,
   );
 });

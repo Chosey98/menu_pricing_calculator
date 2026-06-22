@@ -13,6 +13,7 @@ import '../providers/settings_provider.dart';
 import '../providers/thirds_analysis_provider.dart';
 import '../utils/currency_formatter.dart';
 import '../widgets/addon_card.dart';
+import '../widgets/ingredient_picker_sheet.dart';
 import '../widgets/ingredient_row.dart';
 import '../widgets/item_monthly_targets_card.dart';
 import '../widgets/pricing_summary_card.dart';
@@ -163,16 +164,42 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen> {
                         _updateDraft(item.copyWith(ingredients: ingredients));
                       },
                     ),
-                  OutlinedButton.icon(
-                    onPressed: () {
-                      _updateDraft(
-                        item.copyWith(
-                          ingredients: [...item.ingredients, newIngredientLine()],
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () async {
+                            final line =
+                                await pickIngredientForRecipe(ref, context);
+                            if (line == null || !mounted) return;
+                            _updateDraft(
+                              item.copyWith(
+                                ingredients: [...item.ingredients, line],
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.list_alt_outlined),
+                          label: Text(l10n.chooseIngredient),
                         ),
-                      );
-                    },
-                    icon: const Icon(Icons.add),
-                    label: Text(l10n.addIngredient),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            _updateDraft(
+                              item.copyWith(
+                                ingredients: [
+                                  ...item.ingredients,
+                                  newIngredientLine(),
+                                ],
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.add),
+                          label: Text(l10n.addCustomIngredient),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 24),
                   TextFormField(
